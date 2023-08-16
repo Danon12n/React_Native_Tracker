@@ -19,7 +19,7 @@ export default function App() {
         if (!result.canceled) {
             setSelectedImage(result.assets[0].uri);
         } else {
-            alert("Хули ты ничего не выбрал");
+            alert("Привет из чата");
         }
     };
 
