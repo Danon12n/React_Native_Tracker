@@ -2,6 +2,7 @@
   "expo": {
     "name": "React_Native_Tracker",
     "slug": "React_Native_Tracker",
+    "scheme": "myApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,6 +33,9 @@
       "eas": {
         "projectId": "391183ad-d57e-4487-82de-e98b509cbe9b"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
