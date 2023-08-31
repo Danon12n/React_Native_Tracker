@@ -2,26 +2,12 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-export default function CustomLineChart() {
+export default function CustomLineChart({ data }) {
   return (
     <View>
       <LineChart
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
-            },
-          ],
-        }}
-        width={Dimensions.get('window').width} // from react-native
+        data={data === undefined ? { labels: [], datasets: [{ data: [] }] } : data}
+        width={Dimensions.get('window').width - 30} // from react-native
         height={320}
         yAxisLabel='$'
         yAxisSuffix='k'
