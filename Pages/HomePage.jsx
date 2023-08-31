@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WeightTracker from '../components/WeightTracker';
 import Button from '../components/Button';
 import storage from '../utils/storage';
@@ -9,19 +9,8 @@ const storageIdentifier = { key: 'weights', id: '0001' };
 export default function HomePage() {
   const [x, setX] = useState('1');
   const [chartData, setChartData] = useState({
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        data: [
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100,
-        ],
-      },
-    ],
+    labels: ['January'],
+    datasets: [{ data: [Math.random() * 100] }],
   });
 
   const addWeight = () => {
@@ -49,10 +38,25 @@ export default function HomePage() {
 
         storage.save({
           ...storageIdentifier,
-          data: { labels: [new Date().toLocaleDateString()], values: [x] },
+          data: { labels: [new Date().toLocaleDateString()], values: [+x] },
         });
       });
   };
+
+  const getWeights = () => {
+    storage
+      .load(storageIdentifier)
+      .then((data) => {
+        setChartData({ labels: [...data.labels], datasets: [{ data: [...data.values] }] });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getWeights();
+  }, []);
 
   const showWeights = () => {
     storage.load(storageIdentifier).then((data) => {
@@ -75,8 +79,8 @@ export default function HomePage() {
         placeholder={'Введите вес'}
       />
       <Button label='Добавить вес' theme={'primary'} onPress={addWeight} />
-      {/* <Button label='Показать вес' theme={'primary'} onPress={showWeights} /> */}
-      {/* <Button label='Очистить вес' theme={'primary'} onPress={clearWeights} /> */}
+      <Button label='Показать вес' theme={'primary'} onPress={showWeights} />
+      <Button label='Очистить вес' theme={'primary'} onPress={clearWeights} />
     </ScrollView>
   );
 }
